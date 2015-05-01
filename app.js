@@ -42,12 +42,12 @@ app.delete('/trucks/:name', function (request, response) {
     var contains = _.contains(truckNames, truckName)
     if (contains) {
       trucks.removeTruck(truckName);
-      response.status(200).json('Truck removed');
+      response.status(200).json('truck removed');
     } else {
-      response.status(400).json('Truck does not exist');
+      response.status(400).json('truck does not exist');
     }
   }else {
-    response.status(400).json('Truck not removed');
+    response.status(400).json('truck not removed');
   }
 });
 
