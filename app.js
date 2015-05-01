@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express');
 var trucks = require('./trucks');
+var bodyParser = require('body-parser')
 var app = express();
 
 app.use(express.static('public'));
