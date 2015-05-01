@@ -507,19 +507,19 @@ var foodTrucks = [
 
 var getTrucks = function () {
   return foodTrucks;
-};
+}
 
 var getTruck = function (name) {
   return _.find(foodTrucks, function (foodTruck) {
     return foodTruck.name === name;
   });
-};
+}
 
 var getFoodTypes = function (){
   var truckTypes = _.pluck(foodTrucks, 'type');
   truckTypes = _.flatten(truckTypes);
   return _.union(truckTypes).sort();
-};
+}
 
 var filterByDay = function (day) {
   var i;
@@ -530,16 +530,31 @@ var filterByDay = function (day) {
       }
     }
   });
-};
+}
 
 var filterByFoodType = function (foodType) {
   return  _.filter(foodTrucks, function (foodTruck) {
     return _.contains(foodTruck.type, foodType);
   });
-};
+}
+
+var addTruck = function (truck) {
+  if (truck) {
+    foodTrucks.push(truck);
+  }
+}
+
+var removeTruck = function (truckName) {
+  var index = _.findIndex(foodTrucks, function (truck) {
+    return truck.name === truckName;
+  });
+  foodTrucks.splice(index, 1)
+}
 
 module.exports.getTrucks = getTrucks;
 module.exports.getTruck = getTruck;
 module.exports.getFoodTypes = getFoodTypes;
 module.exports.filterByDay = filterByDay;
 module.exports.filterByFoodType = filterByFoodType;
+module.exports.addTruck = addTruck;
+module.exports.removeTruck = removeTruck;
