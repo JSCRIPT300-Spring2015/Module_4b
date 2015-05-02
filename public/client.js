@@ -1,83 +1,108 @@
 $(function () {
+
   'use strict';
-  $.get('/trucks', function (trucks) {
-    var truckList = [];
-    trucks.forEach(function (truck) {
-      truckList.push('<li class="truck" style="display:none" ><a href="/trucks/' + truck.name + '/">' + truck.name + '</a></li>');
-    });
-    $('.truck-list').append(truckList);
+
+  var foodTypes = [];
+
+  $.get('/trucks', function (truckList) {
+    var list = [];
+    if (truckList) {
+      truckList.forEach(function (truck) {
+        list.push('<li><li><span class="delete_link" data-truck="' + truck.name + '">X</span><a href="/trucks/' + truck.name + '">' + truck.name + '</a></li>');
+      });
+      $('.trucks-list').append(list);
+    }
   });
 
-  $.get('/food-types', function (foods) {
-    var foodsList = [];
-    foods.forEach(function (food) {
-      foodsList.push('<li class="food" style="display:none" ><a href="/food-types/' + encodeURIComponent(food) + '/">' + food + '</a></li>');
-    });
-    $('.types-list').append(foodsList);
-  });
+  $('form').on('submit', function (e) {
 
-  $('.truck-list').click(function () {
+    e.preventDefault();
+    var $form = $(this);
 
-    $(".truck").toggle("slow")
-      .click(function (e) {
-        e.preventDefault();
-        var href = $(this).find('a:first').attr('href');
-        loadAJAX(href);
+    var truckData = {
+      name: $('[name=name]').val(),
+      type: foodTypes,
+      schedule: getSchedule(),
+      description: $('[name=description]').val(),
+      payment: getPaymentTypes(),
+      website: $('[name=website]').val(),
+      Facebook: $('[name=Facebook]').val(),
+      Twitter: $('[name=Twitter]').val()
+    };
+
+    $.ajax({
+      method: 'POST',
+      url: '/trucks',
+      data: truckData
+    })
+      .done(function (truck) {
+        var list = [];
+        list.push('<li><span class="delete_link" data-truck="' + truck.name + '">X</span><a href="/trucks/' + truck.name + '">' + truck.name + '</a></li>');
+        $('.trucks-list').append(list);
+        $form.trigger('reset');
       });
   });
 
-  $('.types-list').click(function () {
-    $(".food").toggle("slow")
-      .click(function (e) {
-        e.preventDefault();
-        var href = $(this).find('a:first').attr('href');
-        loadAJAX(href);
+  function getPaymentTypes() {
+    var types = [];
+
+    $('[name=payment]').each(function () {
+      if (this.checked) {
+        types.push(this.value);
+      }
+    });
+
+    return types;
+  }
+
+  function getSchedule() {
+    var schedule = [];
+
+    $('[name=schedule]').each(function () {
+      if (this.checked) {
+        schedule.push(this.value);
+      }
+    });
+
+    return schedule;
+  }
+
+  function addFoodType(type) {
+
+    foodTypes.push(type);
+    $('.foodType-list').append('<li>' + type + '</li>');
+    $('[name=type]').val('');
+  }
+
+  $('[name=type').on('keypress', function (e) {
+    if (e.which === 13) {
+      e.preventDefault();
+      addFoodType($(this).val());
+    }
+  });
+
+  $('#addFoodType').on('click', function (e) {
+    var foodType = $('[name=type]').val();
+
+    addFoodType(foodType);
+  });
+
+  $('#clearFoodTypes').on('click', function (e) {
+    $('.foodType-list').empty();
+  });
+
+  $('.trucks-list').on('click', '[data-truck]', function (e) {
+    if (!confirm('Remove food truck?')) {
+      return false;
+    }
+    var $target = $(e.currentTarget);
+
+    $.ajax({
+      method: 'DELETE',
+      url: '/trucks/' + $target.data('truck'),
+    })
+      .done(function () {
+        $target.closest('li').remove();
       });
   });
 });
-
-function parseJSON (data) {
-  'use strict';
-  var attribute;
-  var trucks = [];
-  var truck;
-  $('.right').empty();
-  if (data.length === undefined || data.length === 1) {
-    attribute = [];
-    if (data.length === 1) {
-      data = data[0];
-    }
-    trucks = $('<ul><h3><strong>' + data.name + '</strong></h3></ul>');
-    delete data.name;
-    for (var k in data) {
-      if (data.hasOwnProperty(k)) {
-        attribute.push('<li><strong>' + k + '</strong>: ' + data[k] + '</li>');
-      }
-    }
-    trucks.append(attribute);
-    $('.right').append(trucks);
-  } else {
-    data.forEach( function (aTruck) {
-      truck = $('<ul><h3><strong>' + aTruck.name + '</strong></h3></ul>');
-      delete aTruck.name;
-      for (var k in aTruck) {
-        if (aTruck.hasOwnProperty(k)) {
-          truck.append('<li><strong>' + k + '</strong>: ' + aTruck[k] + '</li>');
-        }
-      }
-      truck.append(attribute);
-      $('.right').append(truck);
-      $('.right').append('<hr/>');
-    });
-  }
-}
-
-function loadAJAX (url) {
-  'use strict';
-  $.ajax({
-    type: 'GET',
-    dataType: 'json',
-    url: url,
-    success: parseJSON
-  });
-}
