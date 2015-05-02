@@ -1,9 +1,11 @@
 'use strict';
 var express = require('express');
 var trucks = require('./trucks');
+var _ = require('underscore')
 var bodyParser = require('body-parser')
 var app = express();
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(express.static('public'));
 app.get('/', function (request, response) {
   response.redirect('/trucks');
@@ -16,6 +18,7 @@ app.get('/trucks', function (request, response) {
 app.post('/trucks', function (request, response){
   var newTruck = request.body;
   var foodTrucks = trucks.getTruck();
+  console.log(newTruck);
   if (newTruck) {
     var truckNames = _.pluck(foodTrucks, 'name')
     var contains = _.contains(truckNames, newTruck.name)
@@ -36,7 +39,7 @@ app.get('/trucks/:name', function (request, response) {
 
 app.delete('/trucks/:name', function (request, response) {
   var truckName  = request.params.name;
-  var foodTrucks = trucks.getTruck();
+  var foodTrucks = trucks.getTrucks();
   if (truckName) {
     var truckNames = _.pluck(foodTrucks, 'name')
     var contains = _.contains(truckNames, truckName)
