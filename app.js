@@ -62,6 +62,18 @@ app.get('/food-types/:name', function (request, response) {
   response.json(trucks.filterByFoodType(request.params.name));
 });
 
+app.put('/trucks', function (request, response) {
+  var newTruck = request.body;
+  var foodTrucks = trucks.getTrucks();
+  if (newTruck) {
+    trucks.removeTruck(newTruck.name)
+    trucks.addTruck(newTruck)
+    response.status(200).json('truck updated')
+  } else {
+    response.status(400).json('no truck to update')
+  }
+});
+
 app.listen(80, function () {
   console.log('listening on port 80');
 });
