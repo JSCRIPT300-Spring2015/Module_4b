@@ -1,4 +1,4 @@
-var _ = require('lodash')
+var _ = require('lodash');
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -507,7 +507,7 @@ var foodTrucks = [
 function getTrucks() {
 	return _.map(foodTrucks, function(item) {
 		return item;
-	})
+	});
 }
 
 function getTruck(truck) {
@@ -522,10 +522,10 @@ function getFoodTypes() {
 
 function filterByFoodType(type) {
 	return _.filter(foodTrucks, function(item) {
-		var item = _.filter(item.type, function(loop) {
+		var items = _.filter(item.type, function(loop) {
 			if (loop === type) {return true;}
-		}) 
-		if(item[0]) {return true;}
+		});
+		if(items[0]) {return true;}
 	});
 }
 function addTruck(newTruck) {
@@ -550,4 +550,4 @@ module.exports = {
 	filterByFoodType: filterByFoodType,
 	addTruck: addTruck,
 	removeTruck: removeTruck
-}
+};

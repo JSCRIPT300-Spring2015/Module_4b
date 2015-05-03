@@ -30,7 +30,7 @@ app.route('/trucks/:trucks')
 		response.send(trucks.getTruck(truckName));
 	})
 	.delete(function(request, response) {
-		name = request.params.trucks;
+		var name = request.params.trucks;
 		var didDelete = trucks.removeTruck(name);
 		if(didDelete) {response.sendStatus(200);
 		} else {
