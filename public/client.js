@@ -18,8 +18,7 @@ $(function () {
 
 		e.preventDefault();
 		var $form = $(this);
-
-		var truckData = {
+        var truckData = {
 			name: $('[name=name]').val(),
 			type: foodTypes,
 			schedule: getSchedule(),
@@ -29,7 +28,7 @@ $(function () {
 			Facebook: $('[name=Facebook]').val(),
 			Twitter: $('[name=Twitter]').val()
 		};
-
+        console.log('Here is the new truck: ' + truckData);
 		$.ajax({
 			method: 'POST',
 			url: '/trucks',
@@ -74,7 +73,7 @@ $(function () {
 		$('[name=type]').val('');
 	}
 
-	$('[name=type').on('keypress', function (e) {
+	$('[name=type]').on('keypress', function (e) {
 		if (e.which === 13) {
 			e.preventDefault();
 			addFoodType($(this).val());
@@ -92,11 +91,11 @@ $(function () {
 	});
 
 	$('.trucks-list').on('click', '[data-truck]', function (e) {
-		if (!confirm('Remove food truck?')) {
+		if (!confirm('Are you SURE you want to remove this truck?')) {
 			return false;
 		}
 		var $target = $(e.currentTarget);
-
+        console.log('The truck to delete is: ' + $target.data('truck'));
 		$.ajax({
 			method: 'DELETE',
 			url: '/trucks/' + $target.data('truck'),
