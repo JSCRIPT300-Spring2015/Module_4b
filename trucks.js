@@ -533,12 +533,14 @@ function addTruck(newTruck) {
 }
 
 function removeTruck(name) {
+	var found;
 	foodTrucks.forEach(function(truck, index) {
 		if (truck.name === name) {
 			foodTrucks.splice(index, 1);
-			return true;
+			found = true;
 		}
 	});
+	return found;
 }
 
 module.exports = {
@@ -546,11 +548,6 @@ module.exports = {
 	getTruck: getTruck,
 	getFoodTypes: getFoodTypes,
 	filterByFoodType: filterByFoodType,
-	addTruck: addTruck
+	addTruck: addTruck,
+	removeTruck: removeTruck
 }
-// this module should support the following methods:
-// getTrucks() - return all trucks
-// getTruck(name) - return the truck object matching 'name'
-// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
-// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
-// filterByFoodType(foodType) - return trucks with associated 'foodType'
