@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -392,7 +394,7 @@ var foodTrucks = [
 	},
 	{
 		name: 'Dogfather Catering',
-		type: ['Hot Dogs', 'sausages', 'wood fired pizza', 'Pizza'],
+		type: ['Hot dogs', 'sausages', 'wood fired pizza', 'Pizza'],
 		payment: ['Cash', 'Cards'],
 		description: 'Hot dogs, sausages and wood-fired pizza',
 		Facebook: 'https://www.facebook.com/dogfathercatering',
@@ -502,3 +504,81 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+// this module  supports the following methods:
+// getTrucks() - return all trucks
+// getTruck(name) - return the truck object matching 'name'
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
+
+function getTrucks() {
+    return foodTrucks;
+}
+
+function getTruck(name) {
+    //update this to put the single truck into a form
+    //that truck can them be updated
+	return _.filter(foodTrucks, function (truck) {
+		return truck.name === name;
+	});
+}
+
+function getFoodTypes() {
+    
+	return _.uniq(_.flatten(_.pluck(foodTrucks, 'type')));
+}
+
+function filterByDay(dayName) { 
+
+    return _.filter(foodTrucks, function (truck) { 
+	    return _.any(truck.schedule, function (day) { 
+		    return dayName === day;
+	     }); 
+    }); 
+}
+
+function filterByFoodType(foodType) {
+
+	return _.where(foodTrucks,{type: foodType});	
+
+	//return _.filter(foodTrucks, function(truck){
+	//	return _.contains(truck.type, foodtype);
+	//});	
+
+}
+
+function addTruck(truck) {
+	console.log('Adding ' + truck + ' in addTruck.');
+	if (truck) {
+		    foodTrucks.push(truck);
+	}
+}
+
+function removeTruck(name) {
+    
+    var index = _.findIndex(foodTrucks, function (name) {
+    	return foodTrucks.name === name;
+    });
+    foodTrucks.splice(index, 1);
+}
+
+function updateTruck(truck) {
+
+
+}
+
+var foodTrucksPlus = {
+
+    getTrucks: getTrucks,
+    getTruck: getTruck,
+    getFoodTypes: getFoodTypes,
+    filterByDay: filterByDay,    
+    filterByFoodType: filterByFoodType,
+    addTruck: addTruck,
+    removeTruck: removeTruck,
+    updateTruck: updateTruck
+};
+
+module.exports = foodTrucksPlus;
+ 
