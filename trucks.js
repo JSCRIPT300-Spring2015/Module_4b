@@ -1,3 +1,6 @@
+'use strict';
+// use the underscore module to filter the following data
+var _ = require('underscore');
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -502,3 +505,67 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+
+// this module should support the following methods:
+// getTrucks() - return all trucks
+var getTrucks = function(){
+	return foodTrucks;
+};
+// getTruck(name) - return the truck object matching 'name'
+var getTruck = function(name){
+	return _.find(foodTrucks, function(truck){
+		return truck.name === name;
+	});
+};
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+var getFoodTypes = function(){
+	var foodTypesArray = [];
+	_.each(foodTrucks, function(truck){
+		_.each(truck.type, function(truckType){
+			foodTypesArray.push(truckType);
+		});
+	});
+	return _.uniq(foodTypesArray);
+};
+// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
+var filterByDay = function(day){
+	return _.filter(foodTrucks, function(foodTruck){
+		if(_.contains(foodTruck.schedule, day)) {
+			return foodTruck;
+		}
+	});
+};
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
+var filterByFoodType = function(foodType){
+	var result = [];
+	_.each(foodTrucks, function(truck){
+		if(_.contains(truck.type, foodType)){
+			result.push(truck);
+		}
+	});
+	return result;
+};
+//add the given truck object to the foodTrucks array
+var addTruck = function(truckObj) {
+	foodTrucks.push(truckObj);
+};
+// /remove the given truck object from the foodTrucks array
+var removeTruck = function(name) {
+	var removeTruck = foodTrucks.indexOf(getTruck(name));
+	if(removeTruck !== -1) {
+		foodTrucks.splice(removeTruck, 1);
+	}
+};
+
+var trucks = {
+	getTrucks : getTrucks,
+	getTruck : getTruck,
+	getFoodTypes : getFoodTypes,
+	filterByDay : filterByDay,
+	filterByFoodType : filterByFoodType,
+	addTruck : addTruck,
+	removeTruck : removeTruck
+};
+
+module.exports = trucks;
