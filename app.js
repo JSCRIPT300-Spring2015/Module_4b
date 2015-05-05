@@ -3,9 +3,29 @@
 //  can also serve up css files from the public directory this way if you want)
 //  you need to support a '/trucks' endpoint, and a dynamic route for '/trucks:name'
 
-var body-parser = require('body-parser');
+/*
+*  For Module 4b
+*  1.  A GET route for '/trucks' that sends to the response the list of all food-truck objects in 
+*		JSON format.
+*  2.  A GET route for '/trucks/:name' that sends to the response the matching food-truck object in 
+*		JSON format.
+*  3.  A GET route for '/food-types' that sends to the response the unique list of food types 
+*		associated with the food trucks in the foodTrucks list. And in the same app.js file, add 
+*		the following three new routes:
+*  4.  A POST route for '/trucks' that posts a new food-truck object consisting of (if they exist) 
+*		the following values. After creating a new food truck object, add it to the foodTrucks 
+*		array, then send it to the response: name food type schedule of days payment types accepted 
+*		website url Facebook page url Twitter url
+*  5.  A DELETE route for '/trucks/:name' that sends a delete request that will delete the 
+*		corresponding food-truck object from the foodTrucks array.
+*/
 var express = require('express');  //require the express module which returns an object/function
 var app = express(); //creates and express application instance
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 
 var serveStatic = express.static('public');
@@ -22,11 +42,6 @@ var truckObject = trucks();
 app.get('/trucks',function(request,response){
 	var truckList = truckObject.getTrucks();
 	response.send(JSON.stringify(truckList));
-//	var nameString = '';
- // for(i=0;i<truckList.length;i++){
-//	nameString = nameString + truckList[i].name + '<br>';
-//  }
- // response.send(nameString);
 });
 
 
@@ -121,6 +136,24 @@ app.get('/trucksfood/:name',function(request,response){
 	nameString = nameString + filteredTrucks[i].name + '<br>';
   }
   response.send(nameString);
+});
+
+app.post('/trucks',function(request,response){
+	var newTruck = request.body;
+	if(newTruck){
+		newTruck.read = false;
+		//newTruck._id = idManager.getId(); //module to go get new id
+		truckObject.addTruck(newTruck);
+		response.status(201).json(newTruck);
+	}else{
+		response.status(400).json('problem adding the truck');
+	}
+});
+
+app.delete('/trucks/:name',function(request,response){
+	var name = request.params.name; //get the name
+	truckObject.removeTruck(name);
+	response.sendStatus(200); //sends back ok in the body
 });
 
 app.listen(3000,function(){

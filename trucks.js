@@ -552,17 +552,44 @@ var superTrucks = function(){
 		var filteredTrucks = _.filter(this.foodTrucks,function(truck){
 			return (truck.type.indexOf(type)>-1);
 		});
-		console.log(filteredTrucks);
 		return filteredTrucks;
 	};
 	
+
+//add a truck object to the truck array
+	myObject.addTruck = function (truckObj){
+		if(truckObj){
+			this.foodTrucks.push(truckObj);
+		}
+		
+	};
+
+// remove a truck object
+function removeBook(name){
+	//get the index value of the truck name
+	var index = _.findIndex(this.foodTrucks, function(truck){
+		return truck.name === name;
+	});
+	this.foodTrucks.splice(index,1); //remove 1 item and that item is at index 'index'
+}
+
+
+
 	
 	return myObject;
 };
+
 module.exports = superTrucks;
+
+
 // this module should support the following methods:
-// getTrucks() - return all trucks
-// getTruck(name) - return the truck object matching 'name'
-// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
-// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
-// filterByFoodType(foodType) - return trucks with associated 'foodType'
+
+//getTrucks() - return the entire array of food truck objects
+//getTruck(name) - return the food truck object with the given name
+//getFoodTypes() - return the unique list of food types associated with all food trucks in the foodTrucks array.
+//filterByFoodTypes(type) - return the list of trucks that match the given food type
+
+// Module 4b - add to the trucks module the following new methods:
+//addTruck(truckObj) - add the given truck object to the foodTrucks array
+//removeTruck(name) - remove the given truck object from the foodTrucks array
+
