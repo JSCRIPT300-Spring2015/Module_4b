@@ -1,4 +1,12 @@
-var foodTrucks = [
+var _ = require('underscore');
+
+var superTrucks = function(){
+	'use strict';
+	
+	//create object
+    var myObject = {};
+	
+	myObject.foodTrucks = [
 	{
 		name: '314 PIE',
 		type: ['Sweet and Savory Pies', 'Pie', 'Sweets'],
@@ -392,7 +400,7 @@ var foodTrucks = [
 	},
 	{
 		name: 'Dogfather Catering',
-		type: ['Hot Dogs', 'sausages', 'wood fired pizza', 'Pizza'],
+		type: ['Hot dogs', 'sausages', 'wood fired pizza', 'Pizza'],
 		payment: ['Cash', 'Cards'],
 		description: 'Hot dogs, sausages and wood-fired pizza',
 		Facebook: 'https://www.facebook.com/dogfathercatering',
@@ -502,3 +510,59 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+
+	myObject.filterByDay = function(dayName){
+		var filteredTrucks = _.filter(this.foodTrucks,function(truck){
+			return (truck.schedule.indexOf(dayName)>-1);
+		});
+		return filteredTrucks;
+	};
+
+	myObject.getTrucks = function(){
+		return this.foodTrucks;
+	};
+	
+	myObject.getTruck = function(name){
+		var i=0;
+		for(i=0;i<this.foodTrucks.length;i++){
+			if(this.foodTrucks[i].name === name){
+				return this.foodTrucks[i];
+			}
+		}
+	};
+	
+	myObject.getFoodTypes = function (){
+		//munge together all the food types from all the trucks into an array push the value 
+		var mungeArray = [];
+		var foodTypeString = '';
+		var i=0;
+		for(i=0;i<this.foodTrucks.length;i++){
+			//type is an array so have to union it in (plus that gets us unique)
+			mungeArray = _.union(mungeArray,this.foodTrucks[i].type);
+		}
+		mungeArray = _.sortBy(mungeArray);
+		// then JSON.stringify(uniqueArray) to send out the JSON list of food types
+		foodTypeString = JSON.stringify(mungeArray);
+		return foodTypeString;
+	};
+	
+	
+	myObject.filterByFoodType = function(type){
+		var filteredTrucks = _.filter(this.foodTrucks,function(truck){
+			return (truck.type.indexOf(type)>-1);
+		});
+		console.log(filteredTrucks);
+		return filteredTrucks;
+	};
+	
+	
+	return myObject;
+};
+module.exports = superTrucks;
+// this module should support the following methods:
+// getTrucks() - return all trucks
+// getTruck(name) - return the truck object matching 'name'
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
