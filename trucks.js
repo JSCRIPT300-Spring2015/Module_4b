@@ -1,3 +1,7 @@
+'use strict';
+
+var _ = require('underscore');
+
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -392,7 +396,7 @@ var foodTrucks = [
 	},
 	{
 		name: 'Dogfather Catering',
-		type: ['Hot Dogs', 'sausages', 'wood fired pizza', 'Pizza'],
+		type: ['Hot dogs', 'sausages', 'wood fired pizza', 'Pizza'],
 		payment: ['Cash', 'Cards'],
 		description: 'Hot dogs, sausages and wood-fired pizza',
 		Facebook: 'https://www.facebook.com/dogfathercatering',
@@ -502,3 +506,64 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+function getTrucks() {
+       return foodTrucks;
+}
+
+function getTruck(name) {
+    for (var i = 0; i < foodTrucks.length; i++) {
+        if (name.toLowerCase() === foodTrucks[i].name.toLowerCase()){
+            return foodTrucks[i];
+        }
+    }
+}
+
+function getFoodTypes() {
+    var foods = _.pluck(foodTrucks, 'type');
+    foods = _.flatten(foods);
+    foods = _.uniq(foods);
+    return foods;
+}
+
+function filterByDay(day) {
+
+ var trucksByDay = _.filter(foodTrucks, function(item) {
+        return _.any(item.schedule,function(item1) {
+            return item1 === day;
+        }); 
+     });
+    return trucksByDay;
+}
+
+function filterByFoodType(type) {
+    var trucksByFood = _.filter(foodTrucks, function(item) {
+        return _.any(item.type,function(item1) {
+            return item1 === type;
+        }); 
+     });
+    return trucksByFood;
+}
+
+function addTruck(truckObj) {
+    if (truckObj) {
+    foodTrucks.push(truckObj);
+    };
+    
+}
+
+function removeTruck(name) {
+    var truckRemove = _.indexOf(foodTrucks, function (name){
+        return foodTrucks.name === name;
+    });
+    foodTrucks.splice(truckRemove, 1);
+    
+}
+
+module.exports.getTrucks = getTrucks;
+module.exports.getTruck = getTruck;
+module.exports.getFoodTypes = getFoodTypes;
+module.exports.filterByDay = filterByDay;
+module.exports.filterByFoodType = filterByFoodType;
+module.exports.addTruck = addTruck;
+module.exports.removeTruck = removeTruck;
