@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JSCRIPT300-Spring2015/Module_4b.git"
+    "url": "https://github.com/aragonwa/Module_4b"
   },
   "author": "Alex Aragon (aragonwa@gmail.com)",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/JSCRIPT300-Spring2015/Module_4b/issues"
+    "url": "https://github.com/aragonwa/Module_4b/issues"
   },
   "dependencies": {
     "underscore": "~1.8.3",
