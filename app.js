@@ -7,9 +7,6 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.get('/', function (request, response) {
-  response.redirect('/trucks');
-});
 
 app.get('/trucks', function (request, response) {
   response.json(trucks.getTrucks());
@@ -34,7 +31,13 @@ app.post('/trucks', function (request, response){
 });
 
 app.get('/trucks/:name', function (request, response) {
-  response.json(trucks.getTruck(request.params.name));
+  var truck = trucks.getTruck(request.params.name);
+  if (truck) {
+    response.json(trucks.getTruck(request.params.name));
+  } else {
+    response.status(404).json('truck not found');
+  }
+
 });
 
 app.delete('/trucks/:name', function (request, response) {
