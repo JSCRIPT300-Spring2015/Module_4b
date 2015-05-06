@@ -502,3 +502,101 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+// this module should support the following methods:
+// getTrucks() - return all trucks
+// getTruck(name) - return the truck object matching 'name'
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
+var _ = require('underscore');
+
+var getTrucks = function getTrucks() {
+
+	return foodTrucks;
+};
+
+var getTruck = function getTruck(name) {
+
+	var truckObj = _.find(foodTrucks, function isMatch(truck) {
+
+		return truck.name === name;
+	});
+	return truckObj;
+};
+
+var getFoodTypes = function getFoodTypes() {
+
+	var foodTypes = _.chain(foodTrucks)
+			.pluck('type')
+			.flatten()
+			.uniq()
+			.value();
+	return foodTypes;
+};
+
+var filterByDay = function filterByDay(day) {
+
+	var dayArray = _.filter(foodTrucks, function isMatch(truck) {
+		
+		return _.contains(truck.schedule, day);
+	});
+	return dayArray;
+};
+
+var filterByFoodTypes = function filterByFoodTypes(type) {
+
+	var truckByFood = _.filter(foodTrucks, function isMatch(truck) {
+		
+		return _.contains(truck.type, type);
+	});
+	return truckByFood;
+};
+
+var addTruck = function addTruck(truckObj) {
+	
+	if (truckObj) {
+		// Not really necessary, but it looks like Express doesn't post empty
+		// arrays, so if these don't have selections they aren't created.
+		// Placeholders are strings because an empty array creates a blank input
+		// at /trucks/:name
+		var truck = _.extend({type:'', schedule:'', payment:''}, truckObj);
+		foodTrucks.push(truck);
+	}
+};
+
+// Takes truck name from the route to keep it seperate from what was received
+// in the form data. Since the route was created based on the name field, this
+// isn't necessary and just for practice
+var updateTruck = function updateTruck(truckName, truckObj) {
+
+	var truckKey = _.findIndex(foodTrucks, function isMatch(truck) {
+
+		return truck.name === truckName;
+	});
+	var tempTruck;
+	
+	if (truckKey >= 0) {
+		delete truckObj.name;
+		tempTruck = _.extend(getTruck(truckName), truckObj);
+		foodTrucks.splice(truckKey, 1, tempTruck);
+	}
+};
+
+var removeTruck = function removeTruck(name) {
+	
+	var truck = _.findIndex(foodTrucks, function (truck) {
+		return truck.name === name;
+	});
+	foodTrucks.splice(truck, 1);
+};
+
+module.exports = {
+	getTrucks: getTrucks,
+	getTruck: getTruck,
+	getFoodTypes: getFoodTypes,
+	filterByDay: filterByDay,
+	filterByFoodTypes: filterByFoodTypes,
+	addTruck: addTruck,
+	updateTruck: updateTruck,
+	removeTruck: removeTruck
+};

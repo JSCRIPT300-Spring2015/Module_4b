@@ -49,6 +49,10 @@ input[name=Twitter] {
 	width: 400px;
 }
 
+input:disabled {
+	background-color: lightgrey;
+}
+
 ul {
 	list-style-type: none;
 }
@@ -68,5 +72,19 @@ li {
 
 .delete_link:hover {
 	background: red;
+	font-weight: bold;
+}
+
+.edit_link {
+	display: inline-block;
+	background: aquamarine;
+	padding: 2px 5px;
+	border: 1px solid grey;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.edit_link:hover {
+	background: green;
 	font-weight: bold;
 }
