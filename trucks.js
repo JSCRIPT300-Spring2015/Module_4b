@@ -1,3 +1,6 @@
+'use strict';
+var _ = require('underscore');
+
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -502,3 +505,56 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+function getTrucks(){
+	return foodTrucks;
+}
+
+function getTruck(name){
+	return _.find(foodTrucks, function(truck){
+		return truck.name === name;
+	});	
+}
+//console.log(getTruck('Full Tilt Ice Cream'));
+
+function getFoodTypes(){
+	return _.uniq(_.flatten(_.pluck(foodTrucks, 'type')));
+}
+//console.log(getFoodTypes());
+
+function filterByDay(day) {
+	return _.filter(foodTrucks, function(truck){
+		return _.contains(truck.schedule, day);
+	});	
+}
+//console.log(filterByDay('Sunday'));
+
+function filterByFoodType(foodtype){
+	return _.filter(foodTrucks, function(truck){
+		return _.contains(truck.type, foodtype);
+	});	
+}
+//console.log(filterByFoodType('Hot Dogs'));
+
+function addTruck(truck) {
+	if (truck) {
+		foodTrucks.push(truck);
+	}
+}
+
+function removeTruck(truckName) {	
+	var index = _.findIndex(foodTrucks, function (truck) {
+		return truck.name === truckName;
+	});
+	foodTrucks.splice(index, 1);
+}
+
+module.exports = {
+	getTrucks : getTrucks,
+	getTruck : getTruck,
+	getFoodTypes : getFoodTypes,
+	filterByDay : filterByDay,
+ 	filterByFoodType : filterByFoodType,
+ 	addTruck : addTruck,
+ 	removeTruck : removeTruck
+ }
