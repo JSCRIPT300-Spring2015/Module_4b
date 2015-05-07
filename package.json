@@ -1,0 +1,25 @@
+{
+  "name": "Module_4b",
+  "version": "1.0.0",
+  "description": "A Restful service for food truck company",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t80532292/Module_4b.git"
+  },
+  "author": "Dennis Yip",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/t80532292/Module_4b/issues"
+  },
+  "homepage": "https://github.com/t80532292/Module_4b",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {}
+}
