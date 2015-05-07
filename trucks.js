@@ -502,3 +502,195 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+/*
+ * Homework 
+ * JSCRIPT300-Spring2015/Module_4b
+ * by Diane Zevenbergen
+ *
+ * NOTE: I revised code from HW for Module 4a in order to use
+ * underscore in getTruck, getFoodTypes and filterByFoodType
+ */
+
+'use strict';
+
+var _ = require('underscore');
+
+/* 
+ * Function returns array object of food trucks available today.
+ * Uses underscore's filter() method.
+ */ 
+function filterByDay(day) {
+
+    // Filter returns the subset of foodTrucks that match 'day'
+    var todaysTrucks = _.filter(foodTrucks, function(item) {
+
+        // Exclude truck if object doesn't include 'schedule' prop, otherwise check for 'day' match
+        if (typeof item.schedule === 'undefined') {
+            return false;
+        } else {
+            return (item.schedule.indexOf(day) !== -1);
+        }        
+    });
+    
+    return todaysTrucks;
+}
+
+// Function returns all truck objects
+function getTrucks() {
+    return foodTrucks;
+}
+
+// Function returns object info for matching truck if found
+function getTruck(name) {
+    var matchingTruck = {};
+    
+    name = name.toLowerCase().trim();
+
+    // Use underscore to find matching truck
+    matchingTruck = _.find(foodTrucks, function (i) { 
+        if (i.name.toLowerCase().trim() === name) {
+            return i;
+        }
+    });
+    
+    // Return matchingTruck
+    return matchingTruck;
+}
+
+//Function returns array of unique food types
+function getFoodTypes() {
+    var uniqueFoods = [];
+    var index = 0;
+
+    // Returns list of unique food types for all trucks
+	uniqueFoods = _.uniq(_.flatten(_.pluck(foodTrucks, "type")));
+    
+    // Sorts list, case-insensitive (from stackoverflow)
+    uniqueFoods = _.sortBy(uniqueFoods, function (i) { return i.toLowerCase(); });
+
+    // Return array of unique food types
+    return uniqueFoods;
+  
+}
+
+// Function returns object info for matching food type (if found)
+function filterByFoodType(type) {
+    var matchingTrucks= [];
+    
+    type = type.toLowerCase();
+
+    /*
+     * Filter returns the trucks that sell a specific food type 'type'
+     * QUESTION:  I added a prototype method make it case insensitive -
+     * is there a better way?
+     */
+	var matchingTrucks = _.filter(foodTrucks, function (item) {
+                
+		if (typeof item.type === 'undefined') {
+			return false;
+		} else {
+            return (item.type.toLowerCase().indexOf(type) !== -1);
+		}
+	});
+
+    return matchingTrucks;    
+}
+
+
+// Prototype method returns a lowercase version of the array that calls it (found concept on Stackoverflow, changed somewhat)
+Array.prototype.toLowerCase = function() { 
+    var lcArray = [];
+    
+    for (var i = 0, l = this.length; i < l; i++) {
+        lcArray[i] = this[i].toLowerCase(); 
+    }
+    
+    return lcArray;
+}
+
+// Add a truck to the foodTrucks array
+function addTruck(truckObj) {
+    if (truckObj) {
+        foodTrucks.push(truckObj); 
+    }    
+}
+
+// Remove a truck from the foodTrucks array
+function removeTruck(name) {
+    var index = _.findIndex(foodTrucks, function (truck) {
+        return truck.name === name;
+    });
+    foodTrucks.splice(index, 1);
+}
+
+// Update info for a truck in the foodTrucks array
+function updateTruck(truckObj) {
+    if (truckObj) {    
+        var index = _.findIndex(foodTrucks, function (truck) {
+            return truck.name === truckObj.name;
+        });
+        foodTrucks[index] = truckObj;
+    }    
+}
+
+// Function builds html for a truck object
+function getDetailList(truck) {
+    var truckDetails = [];
+
+    truckDetails.push('<h2>' + truck.name + '</h2>');
+    if (typeof truck.type !== 'undefined') {
+        truckDetails.push('<p>Food type: ' + truck.type.join(", ") + '</p>');
+    }
+    if (typeof truck.schedule !== 'undefined') {
+        truckDetails.push('<p>Days open: ' + truck.schedule.join(", ") + '</p>');
+    }
+    if (typeof truck.payment !== 'undefined') {
+        truckDetails.push('<p>Payment options: ' + truck.payment.join(", ") + '</p>');
+    }
+    if (typeof truck.description !== 'undefined') {
+        truckDetails.push('<p>Payment options: ' + truck.description + '</p>');
+    }
+    if (typeof truck.website !== 'undefined') {
+        truckDetails.push('<p><a href="' + truck.website + '">Visit our website</a></p>');
+    }
+    if (typeof truck.Facebook !== 'undefined') {
+        truckDetails.push('<p><a href="' + truck.Facebook + '">Visit us on Facebook</a></p>');
+    }
+    if (typeof truck.Twitter !== 'undefined') {
+        truckDetails.push('<p><a href="' + truck.Twitter + '">Visit us on Twitter</a></p>');
+    }
+    
+    return truckDetails.join("");
+}
+
+
+module.exports = {
+    filterByDay: filterByDay,
+    getTrucks: getTrucks,
+    getTruck: getTruck,
+    getFoodTypes: getFoodTypes,
+    filterByFoodType: filterByFoodType,
+    getDetailList: getDetailList,
+    addTruck: addTruck,
+    removeTruck: removeTruck
+};
+
+//addTruck({
+//		name: 'Diane\'s Truck',
+//		type: ['Asian'],
+//		schedule: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+//		payment: ['Cash'],
+//		description: 'Regular taco truck in the Fremont neighborhood - open 7 days a week and late night',
+//		Facebook: 'https://www.facebook.com/pages/Flair-Taco/197832600252403'
+//	});
+
+//removeTruck('A Fire Inside Wood Fired Pizza');
+//console.log(foodTrucks[0]);
+//console.log(foodTrucks[1]);
+//console.log(foodTrucks[2]);
+//console.log(filterByDay('Tuesday'));
+//console.log(getTrucks());
+//console.log(getTruck('El Camion'));
+//console.log(getFoodTypes());
+//console.log(filterByFoodType('SAUSAGES'));

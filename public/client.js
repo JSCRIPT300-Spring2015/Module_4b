@@ -105,4 +105,18 @@ $(function () {
 			$target.closest('li').remove();
 		});
 	});
+
+    /*
+     * Extra credit from 4a - add link that displays all of the food        * types (problem: links that contain '/', such as 
+     * 'Burgers/Cheesesteaks' do not work)
+     */
+    $('#foodChoices').click(function foodTypeLinks () {
+        $.get('/food-types', function (foodTypes) {
+            var foodTypeList = [];
+            foodTypes.forEach(function (type) {
+                foodTypeList.push('<li><a href="/food-types/' + type + '/">' + type + '</a></li>');
+ 		     });
+            $('.food-type-list').append(foodTypeList);
+        });
+    });
 });
