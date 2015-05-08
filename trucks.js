@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -209,7 +211,7 @@ var foodTrucks = [
 	{
 		name: 'Buddha Bruddah',
 		type: ['Asian'],
-		schedule: ['Monday', 'Tuesday','Wednesday','Thursday', 'Friday'],
+		schedule: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
 		payment: ['Cash', 'Cards'],
 		description: 'Gourmet Asian mixed plates',
 		website: 'http://www.buddhabruddah.com',
@@ -262,7 +264,7 @@ var foodTrucks = [
 	{
 		name: 'Charlie\'s',
 		type: ['Burgers/Cheesesteaks', 'Burgers'],
-		schedule: ['Monday', 'Tuesday', 'Wednesday','Thursday'],
+		schedule: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
 		payment: ['Cash', 'Cards'],
 		description: 'A fresh take on American diner fare',
 		website: 'http://www.charliesbunsnstuff.com',
@@ -392,7 +394,7 @@ var foodTrucks = [
 	},
 	{
 		name: 'Dogfather Catering',
-		type: ['Hot Dogs', 'sausages', 'wood fired pizza', 'Pizza'],
+		type: ['Hot dogs', 'sausages', 'wood fired pizza', 'Pizza'],
 		payment: ['Cash', 'Cards'],
 		description: 'Hot dogs, sausages and wood-fired pizza',
 		Facebook: 'https://www.facebook.com/dogfathercatering',
@@ -502,3 +504,119 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+
+// getTrucks() - return all trucks
+function getTrucks() {
+	return foodTrucks;
+}
+
+//getTruck(name) - return the truck object matching 'name'
+function getTruck(name) {
+
+	for (var i = 0, l = foodTrucks.length; i < l; i++) {
+
+		// Loop through food trucks until you find the matching name. When you find the name, stop.
+		if (foodTrucks[i].name.toLowerCase() === name.toLowerCase()) {
+
+			// return entire object for truck
+			return foodTrucks[i];
+		}
+	}
+
+	return false;
+}
+
+
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+function getFoodTypes() {
+
+	// Returns list of food types for all trucks
+	var allFoodTypes = _.uniq(_.flatten(_.pluck(foodTrucks, 'type')));
+
+	allFoodTypes = _.sortBy(allFoodTypes, function (i) {
+		return i.toLowerCase();
+	});
+
+	return allFoodTypes;
+}
+
+
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
+function filterByFoodType(type) {
+
+	// Filter returns the type of food that match type
+	var matchingFoodTypes = _.filter(foodTrucks, function (item) {
+
+		if (typeof item.type === 'undefined') {
+			return false;
+		} else {
+			if (item.type.indexOf(type) === -1) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	});
+
+	return matchingFoodTypes;
+}
+
+
+// filterByDay(day) - return trucks with 'day' in schedule (use your filterByDay function from Module 3 homework)
+function filterByDay(day) {
+
+	// Filter returns the subset of foodTrucks that match 'day'
+	var sortedTrucks = _.filter(foodTrucks, function (item) {
+
+		// Exclude truck if object doesn't include 'schedule' prop, otherwise check for 'day' match
+		if (typeof item.schedule === 'undefined') {
+			return false;
+		} else {
+			return (item.schedule.indexOf(day) !== -1);
+		}
+	});
+
+	return sortedTrucks;
+}
+
+// Add truck
+function addTruck(name) {
+
+	var addNewTruck = [];
+
+	for (var i = 0; i < foodTrucks.length; i++) {
+		if (foodTrucks[i] === foodTrucks[i].name) {
+			addNewTruck.push(i);
+		}
+	}
+}
+
+// Remove truck
+function removeTruck(name) {
+
+	var deleteTruck = null;
+
+	for (var i = 0; i < foodTrucks.length; i++) {
+		if (name === foodTrucks[i].name) {
+			deleteTruck = i;
+			break;
+		}
+	}
+
+	// could also say if typeof is number
+	if (deleteTruck !== null) {
+		foodTrucks.splice(deleteTruck, 1);
+	}
+}
+
+
+module.exports = {
+	filterByDay: filterByDay,
+	getTrucks: getTrucks,
+	getTruck: getTruck,
+	getFoodTypes: getFoodTypes,
+	filterByFoodType: filterByFoodType,
+	addTruck: addTruck,
+	removeTruck: removeTruck
+};
