@@ -521,6 +521,26 @@ function getTruck(name) {
 	return truck;
 }
 
+var getFoodTypes = function getFoodTypes(){
+	return _.uniq(_.flatten(_.pluck(foodTrucks, 'type')));
+	
+};
+
+var filterByDay = function filterByDay(day) {
+	var todayFoodTrucks = _.filter(foodTrucks, function(truck){
+			return _.contains(truck.schedule, day);
+		
+	});
+	return todayFoodTrucks;
+};
+
+var filterByFoodType = function filterByFoodType(foodType){
+	return _.filter(foodTrucks, function(truck){
+		return _.contains(truck.type, foodType);
+	});
+	
+};
+
 function addTruck(truck) {
 	console.log('addTruck: ', truck);
 	if (truck) {
@@ -539,6 +559,9 @@ function removeTruck(name) {
 module.exports = {
 	getTrucks: getTrucks,
 	getTruck: getTruck,
+	getFoodTypes: getFoodTypes,
+	filterByDay: filterByDay,
+	filterByFoodType: filterByFoodType,
 	addTruck: addTruck,
 	removeTruck: removeTruck
 }
