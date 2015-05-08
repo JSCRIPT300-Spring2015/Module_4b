@@ -6,8 +6,6 @@ var router = express.Router();
 var trucks = require('../trucks');
 
 
-
-
 router.route('/trucks')
     .get(function (request, response) {
         response.json(trucks.getTrucks());
@@ -31,6 +29,23 @@ router.route('/trucks/:name')
         trucks.removeTruck(request.params.name);
 
         response.sendStatus(200);
+    });
+
+router.route('/food-types')
+    .get(function (request, response) {
+        var allFoodTypes = trucks.getFoodTypes();
+        response.send(allFoodTypes);
+    });
+
+router.route('/food-types/:type')
+    .get(function (request, response) {
+        var type = request.params.type;
+        var truckWithFoodType = trucks.filterByFoodType(type);
+        if (truckWithFoodType) {
+            response.send(truckWithFoodType);
+        } else {
+            response.status(404).send('Truck with food type ' + name + ' not found');
+        }
     });
 
 module.exports = router;
