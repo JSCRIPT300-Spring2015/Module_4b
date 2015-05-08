@@ -536,9 +536,26 @@ function removeTruck(name) {
 	foodTrucks.splice(index, 1);
 }
 
+function getFoodTypes() {
+	var masterList = _.map(foodTrucks, function(truck) {
+		return truck.type;
+	});
+	var flattenedArrays = _.flatten(masterList);
+	var uniqList = _.uniq(flattenedArrays);
+	return uniqList;
+}
+
+function filterByFoodType(type) {
+	return _.filter(foodTrucks, function (truck) {
+		return _.contains(truck.type, type);
+	});
+}
+
 module.exports = {
 	getTrucks: getTrucks,
 	getTruck: getTruck,
 	addTruck: addTruck,
-	removeTruck: removeTruck
+	removeTruck: removeTruck,
+	getFoodTypes: getFoodTypes,
+	filterByFoodType: filterByFoodType
 }

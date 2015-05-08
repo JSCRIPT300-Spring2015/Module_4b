@@ -3,6 +3,9 @@ var trucks = require('./trucks');
 var bodyParser = require('body-parser');
 var app = express();
 
+
+var port = process.env.PORT || 3000;
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -12,6 +15,14 @@ app.get('/trucks', function (request, response) {
 
 app.get('/trucks/:name', function (request, response) {
 	response.json(trucks.getTruck(request.params.name));
+});
+
+app.get('/food-types', function (request, response) {
+	response.json(trucks.getFoodTypes());
+});
+
+app.get('/food-types/:type', function (request, response) {
+	response.json(trucks.filterByFoodType(request.params.type));
 });
 
 app.post('/trucks', function (request, response) {
@@ -24,6 +35,7 @@ app.post('/trucks', function (request, response) {
 		response.status(400).json('Problem adding truck');
 	}
 });
+
 
 app.delete('/trucks/:name', function (request, response) {
 	trucks.removeTruck(request.params.name);
