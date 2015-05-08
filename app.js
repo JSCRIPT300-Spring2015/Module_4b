@@ -1,4 +1,5 @@
 var express = require('express');
+
 var app = express();
 var trucks = require('./trucks');
 var bodyParser = require('body-parser');
@@ -55,6 +56,7 @@ app.delete('/trucks/:name', function (request, response) {
 	trucks.removeTruck(truckName);
 	response.sendStatus(200);
 });
+
 
 app.listen(3000, function () {
 	console.log('listening on port 3000');

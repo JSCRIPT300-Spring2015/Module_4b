@@ -505,8 +505,9 @@ var foodTrucks = [
 	}
 ];
 
-
 // getTrucks() - return all trucks
+var _ = require('underscore');
+
 function getTrucks() {
 	return foodTrucks;
 }
@@ -609,7 +610,6 @@ function removeTruck(name) {
 		foodTrucks.splice(deleteTruck, 1);
 	}
 }
-
 
 module.exports = {
 	filterByDay: filterByDay,

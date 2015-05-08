@@ -1,4 +1,4 @@
-## Module_4: Assignment
+## Module_4b: Assignment
 
 For this assignment, you're going to fork this repository to your own Github account and clone that repository locally. Inside the repo you'll find a placeholder for app.js, a placeholder trucks.js, and a 'public' directory. Inside the public directory you'll find an index.html file and a client.js file.
 
