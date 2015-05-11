@@ -505,40 +505,65 @@ var foodTrucks = [
 
 var _ = require('underscore');
 
+// getTrucks() - return all trucks
 function getTrucks() {
 	return foodTrucks;
 }
 
+// getTruck(name) - return the truck object matching 'name'
 function getTruck(name) {
-
-	console.log('name: ', name);
-	var truck = _.find(foodTrucks, function (truck) {
-			console.log('truck.name: ', truck.name);
-			return truck.name === name;
-		});
-
-	console.log('truck: ', truck);
-	return truck;
+	var truck =  _.filter(foodTrucks, function(truck) {
+		return _.contains(truck, name);
+	});
+	return truck[0];
 }
 
-function addTruck(truck) {
-	console.log('addTruck: ', truck);
-	if (truck) {
-		foodTrucks.push(truck);
-	}
+// getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
+function getFoodTypes() {
+	return _.filter(foodTrucks, function(truck) {
+		return _.filter(truck.type);
+	});
 }
 
-function removeTruck(name) {
-	var index = _.findIndex(foodTrucks, function (truck) {
-			return truck.name === name;
-		});
+// filterByFoodType(foodType) - return trucks with associated 'foodType'
+function filterByFoodType(foodType) {
+	
+	// returns an array of arrays
+	var list = _.map(foodTrucks, function(truck) {
+		return truck.type.toLowerCase();
+	});
 
-	foodTrucks.splice(index, 1);
+	// flattens the array of arrays to create simple array.
+	list = _.flatten(list); 
+
+	// removes all duplicates
+	return _.uniq(list);
+}
+
+// filterByDay(day) - return trucks with 'day' in schedule
+function filterByDay (day) {
+	return _.filter(foodTrucks, function(truck) {
+		return _.contains(truck.schedule.toLowerCase(), day.toLowerCase());
+	});
+} 
+
+function removeTruck (name) {
+	var i = _.findIndex(foodTrucks, function(truck){
+		return truck.id === name;
+	});
+	foodTrucks.splice(i,1);
+}
+
+function addTruck (truck) {
+	foodTrucks.push(truck);
 }
 
 module.exports = {
-	getTrucks: getTrucks,
+	filterByDay: filterByDay,
+	filterByFoodType: filterByFoodType,
+	getFoodTypes: getFoodTypes,
 	getTruck: getTruck,
+	getTrucks: getTrucks,
 	addTruck: addTruck,
 	removeTruck: removeTruck
-}
+};
