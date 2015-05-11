@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Food Trucks</title>
+	<link rel="stylesheet" href="trucks.css" />
+</head>
+<body>
+	<h1>Food Trucks</h1>
+	<h2>Add Food Trucks:</h2>
+	<form>
+		<fieldset>
+			<legend>New Food Truck:</legend>
+			<div class="form_input">
+				<input type="text" name="name" placeholder="Name" />
+			</div>
+			<div class="form_input">
+				<textarea name="description" placeholder="description of the food truck..." rows="10" cols="50"></textarea>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Food type:</legend>
+			<input type="text" name="type" placeholder="Add food type" />
+			<button type="button" id="addFoodType">Add food type</button>
+			<button type="button" id="clearFoodTypes">Clear list</button>
+			<ul class="foodType-list"></ul>
+		</fieldset>
+		<fieldset>
+			<legend>Payment-types accepted:</legend>
+			<div class="form_input">
+				<input type="checkbox" name="payment" id="cashPayment" value="Cash" />
+				<label for="cashPayment">Cash</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="payment" id="cardsPayment" value="Cards" />
+				<label for="cardsPayment">Credit Cards</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="payment" id="levelUpPayment" value="Level Up" />
+				<label for="levelUpPayment">Level Up</label>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Schedule:</legend>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Monday" value="Monday" />
+				<label for="Monday">Monday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Tuesday" value="Tuesday" />
+				<label for="Tuesday">Tuesday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Wednesday" value="Wednesday" />
+				<label for="Wednesday">Wednesday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Thursday" value="Thursday" />
+				<label for="Thursday">Thursday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Friday" value="Friday" />
+				<label for="Friday">Friday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Saturday" value="Saturday" />
+				<label for="Saturday">Saturday</label>
+			</div>
+			<div class="form_input">
+				<input type="checkbox" name="schedule" id="Sunday" value="Sunday" />
+				<label for="Sunday">Sunday</label>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Online presence:</legend>
+			<div class="form_input">
+				<input type="text" name="website" placeholder="website url" />
+			</div>
+			<div class="form_input">
+				<input type="text" name="Facebook" placeholder="Facebook url" />
+			</div>
+			<div class="form_input">
+				<input type="text" name="Twitter" placeholder="Twitter url" />
+			</div>
+		</fieldset>
+		<input type="submit" value="Add Food Truck" />
+	</form>
+	<h2>Food Truck list:</h2>
+	<ul class="trucks-list"></ul>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="client.js"></script>
+</body>
+</html>
