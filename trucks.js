@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var foodTrucks = [
 	{
 		name: '314 PIE',
@@ -502,3 +504,33 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+
+function getTrucks() {
+	return foodTrucks;
+};
+
+function getTruck(name) {
+	return _.find(foodTrucks, function(truck) {
+		return truck.name === name;
+	});
+};
+
+function addTruck(truck) {
+	if (truck) {
+		foodTrucks.push(truck);
+	};
+};
+
+function removeTruck(name) {
+	var index = _.findIndex(foodTrucks, function (truck) {
+		return truck.name === name;
+	});
+	foodTrucks.splice(index, 1);
+};
+
+module.exports = {
+	getTrucks: getTrucks,
+	getTruck: getTruck,
+	addTruck: addTruck,
+	removeTruck: removeTruck
+}
