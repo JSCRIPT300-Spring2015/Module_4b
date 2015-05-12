@@ -561,13 +561,20 @@ function filterByFoodType(foodType) {
 
 // addTruck(truckObj) - add the given truck object to the foodTrucks array
 function addTruck(truck) {
+    console.log('In addTruck');
     if (truck) {
         foodTrucks.push(truck);
     }
 }
 
 // removeTruck(name) - remove the given truck object from the foodTrucks array
-
+function removeTruck(truck) {
+    console.log('In removeTruck');
+    if (truck) {
+        
+        foodTrucks.pop(truck);
+    }
+}
 
 module.exports = {
     getTrucks: getTrucks,
@@ -575,5 +582,6 @@ module.exports = {
     getFoodTypes: getFoodTypes,
     filterByDay: filterByDay,
     filterByFoodType: filterByFoodType,
-    addTruck: addTruck
+    addTruck: addTruck,
+    removeTruck: removeTruck
 }
