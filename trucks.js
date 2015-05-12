@@ -535,16 +535,13 @@ var superTrucks = function(){
 	myObject.getFoodTypes = function (){
 		//munge together all the food types from all the trucks into an array push the value 
 		var mungeArray = [];
-		var foodTypeString = '';
 		var i=0;
 		for(i=0;i<this.foodTrucks.length;i++){
 			//type is an array so have to union it in (plus that gets us unique)
 			mungeArray = _.union(mungeArray,this.foodTrucks[i].type);
 		}
 		mungeArray = _.sortBy(mungeArray);
-		// then JSON.stringify(uniqueArray) to send out the JSON list of food types
-		foodTypeString = JSON.stringify(mungeArray);
-		return foodTypeString;
+		return mungeArray;
 	};
 	
 	
@@ -565,7 +562,7 @@ var superTrucks = function(){
 	};
 
 // remove a truck object
-function removeBook(name){
+	myObject.removeTruck = function (name){
 	//get the index value of the truck name
 	var index = _.findIndex(this.foodTrucks, function(truck){
 		return truck.name === name;

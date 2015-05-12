@@ -4,16 +4,13 @@ $(function () {
 
 	var foodTypes = [];
 
-	$.get('/trucks', function (trucks) { //was truckList
-		var list = [];
-		var truckList = JSON.parse(trucks); //line added to make work with my passed json data
-		if (truckList) {
-			truckList.forEach(function (truck) {
-				list.push('<li><li><span class="delete_link" data-truck="' + truck.name + '">X</span><a href="/trucks/' + truck.name + '">' + truck.name + '</a></li>');
-			});
-			$('.trucks-list').append(list);
-		}
-	});
+	$.get('/trucks', function (trucks) {
+ 		var truckList = [];
+ 		trucks.forEach(function (truck) {
+ 			truckList.push('<li><a href="/trucks/' + truck.name + '/">' + truck.name + '</a></li>')
+ 		});
+ 		$('.truck-list').append(truckList);
+ 	});
 
 	$('form').on('submit', function (e) {
 
