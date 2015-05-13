@@ -510,19 +510,13 @@ function getTrucks() {
 }
 
 function getTruck(name) {
-
-	console.log('name: ', name);
 	var truck = _.find(foodTrucks, function (truck) {
-			console.log('truck.name: ', truck.name);
 			return truck.name === name;
 		});
-
-	console.log('truck: ', truck);
 	return truck;
 }
 
 function addTruck(truck) {
-	console.log('addTruck: ', truck);
 	if (truck) {
 		foodTrucks.push(truck);
 	}
@@ -532,13 +526,20 @@ function removeTruck(name) {
 	var index = _.findIndex(foodTrucks, function (truck) {
 			return truck.name === name;
 		});
-
 	foodTrucks.splice(index, 1);
+}
+
+function updateTruck(updatedTruck) {
+	var index = _.findIndex(foodTrucks, function (truck) {
+			return truck.name === updatedTruck.name;
+		});
+    foodTrucks[index] = updatedTruck;
 }
 
 module.exports = {
 	getTrucks: getTrucks,
 	getTruck: getTruck,
 	addTruck: addTruck,
-	removeTruck: removeTruck
+	removeTruck: removeTruck,
+    updateTruck: updateTruck
 }
