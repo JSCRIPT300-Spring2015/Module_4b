@@ -33,3 +33,6 @@ Just to be clear, you are adding routes to app.js in addition to the routes you 
 Implement a __PUT__ route in app.js that updates an existing food truck object inside the foodTrucks array. __PUT__ routes should update the entire record, even if only a single value is changing. Along with the __PUT__ route, implement an updateTruck(name) method in your trucks module that your __PUT__ route handler will call to do the actual updating. For the purposes of our foodTrucks array, you cannot update the name property of the truck - you can only update the other properties - add a check in your route handler that checks to make sure the properties being updated are allowed to be updated.
 
 This assignment is due by Thursday, May 7th by 7pm. Once grading has been completed, a :+1: comment will be added to the pull request and the pull request will be closed.
+
+NOTE:
+To run, in node.js commandline, run 'nodemon app.js" then go to a browser and run "http://localhost:3000". This throws an error in FireFox so use Chrome.

@@ -515,22 +515,22 @@ var _ = require('underscore');
 
 // getTrucks() - return all trucks
 function getTrucks() {
-    console.log('In getTrucks()');
+    console.log('In getTrucks');
     return foodTrucks;
 }
 
 // getTruck(name) - return the truck object matching 'name'
 function getTruck(name) {
-    console.log('In getTruck()');
+    console.log('In getTruck');
     var trucks = _.find(foodTrucks, function (truck) {
-        return truck.name == name;
+        return truck.name === name;
     });
     return trucks;
 }
 
 // getFoodTypes() - return unique list of all associated food types (underscore has a function to help)
 function getFoodTypes() {
-    console.log('In getFoodTypes()');
+    console.log('In getFoodTypes');
     // create a list of all the food types
     var list = _.map(foodTrucks, function (truck) {
         return truck.type;
@@ -554,6 +554,7 @@ function filterByDay(day) {
 // filterByFoodType(foodType) - return trucks with associated 'foodType'
 function filterByFoodType(foodType) {
     console.log('In filterByFoodType(foodType)');
+    
     return _.filter(foodTrucks, function (truck) {
         return _.contains(truck.type, foodType);
     });
@@ -562,7 +563,9 @@ function filterByFoodType(foodType) {
 // addTruck(truckObj) - add the given truck object to the foodTrucks array
 function addTruck(truck) {
     console.log('In addTruck');
+    
     if (truck) {
+        // add the truck to the array
         foodTrucks.push(truck);
     }
 }
@@ -570,9 +573,16 @@ function addTruck(truck) {
 // removeTruck(name) - remove the given truck object from the foodTrucks array
 function removeTruck(truck) {
     console.log('In removeTruck');
+    
     if (truck) {
+        // find the index of the truck we want to remove
+        var myTruckIndex = _.findIndex(foodTrucks, function (myTruck) { 
+            return myTruck.name === truck;
+        });
         
-        foodTrucks.pop(truck);
+        // remove the truck by splicing it out of the array
+        foodTrucks.splice(myTruckIndex, 1);
+        
     }
 }
 
