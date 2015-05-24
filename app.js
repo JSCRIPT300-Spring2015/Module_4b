@@ -46,7 +46,8 @@ app.delete('/trucks/:name', function(request,response) {
 	var name = request.params.name;
 	var truck = trucks.getTruck(name);
 	if (truck) {
-		trucks.removeTruck(name)
+		trucks.removeTruck(name);
+		response.sendStatus(200);
 	} else {
 		response.status(404).json('food truck not found: ' + name);
 	}
