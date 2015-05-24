@@ -502,3 +502,40 @@ var foodTrucks = [
 		Twitter: 'https://twitter.com/fticecream'
 	}
 ];
+var _ = require('underscore');
+
+function getTrucks () {
+	return foodTrucks;
+}
+function getTruck(name) {
+	return _.find(foodTrucks, function(truck){
+		return truck.name === name;	
+	});
+}
+function getFoodTypes () {
+	return _.uniq(_.flatten(_.map(foodTrucks, function(truck){
+		return truck.type;
+	})));
+}
+function addTruck(truckObj) {
+	console.log("addTruck");
+	if (truckObj) {
+		foodTrucks.push(truckObj);
+	}
+}
+function removeTruck(name) {	
+	var index = _.findIndex(foodTrucks, function(truck){
+		return truck.name === name;	
+  	});
+	foodTrucks.splice(index, 1);	
+}
+
+module.exports = {
+	getTrucks: getTrucks,
+	getTruck: getTruck,
+	getFoodTypes: getFoodTypes,
+	addTruck: addTruck,
+	removeTruck: removeTruck
+};
+
+
